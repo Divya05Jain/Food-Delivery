@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Life+Savers:wght@800&family=Tilt+Prism&display=swap" rel="stylesheet">
+    <title>Orders List</title>
+    <style>
+      body {
+        background-image: url('https://mir-s3-cdn-cf.behance.net/project_modules/1400/37e19c53319193.592ffe63763e0.gif');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+      h1{
+        text-align: center;
+        font-family: 'Life Savers', cursive;
+        font-weight: 900;
+        font-size: 3rem;
+        background-color: #d6ffd6;
+      }
+        #user-id, #restaurant-id,  #total-amount, #status, #order-form{
+            margin-bottom: 20px;
+        }
+      #add-order{
+        border-radius: 5px;
+        cursor: pointer;
+         padding: 5px 10px ;
+      }
+      input, #status{
+        background-color: #f0f0f0;
+        border-radius: 5px;
+      }
+
+       #user-id {
+            margin-left: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+      td:hover{
+        background-color: #aae6a7;
+      }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Orders List</h1>
+
+    <form id="order-form" method="post" action='{% url "create-order" %}'>
+        {% csrf_token %}
+        <label for="user-id">User ID:</label>
+        <input type="text" id="user-id" name="user_id" required><br>
+
+        <label for="restaurant-id">Restaurant ID:</label>
+        <input type="text" id="restaurant-id" name="restaurant_id" required ><br>
+
+        <label for="total-amount">Total Amount:</label>
+        <input type="number" id="total-amount" name="total_amount" required><br>
+
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+            <option value="placed">Placed</option>
+        </select><br>
+
+        <button type="submit" id="add-order">Add Order</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>User ID </th>
+                <th>Amount</th>
+                <th>Restaurant ID</th>
+                <th>Created AT</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="orders-table">
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.order_id }}</td>
+                <td>{{ order.user_id }}</td>
+                <td>{{ order.total_amount }}</td>
+                <td>{{ order.restaurant_id }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>{{ order.status }}</td>
+        
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
+
